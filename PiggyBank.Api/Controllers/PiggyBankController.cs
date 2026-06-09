@@ -22,7 +22,7 @@ namespace PiggyBank.Api.Controllers
         /// This endpoint creates a new piggy bank
         /// </summary>
         /// <param name="piggyBank">Piggy bank name</param>
-        /// <returns></returns>
+        /// <returns>Return true if a piggy bank was successfully created, or else it returns false</returns>
         [HttpPost("CreatePiggyBank", Name = "Create Piggy Bank")]
         public Task<bool> CreatePiggyBank(CreatePiggyBank piggyBank)
         {
@@ -33,7 +33,7 @@ namespace PiggyBank.Api.Controllers
         /// This endpoint deletes a piggy bank
         /// </summary>
         /// <param name="piggyBankId">Guid id of a piggy bank you want to delete</param>
-        /// <returns></returns>
+        /// <returns>Return true if a piggy bank was successfully deleted, or else it returns false</returns>
         [HttpPatch("DeletePiggyBank", Name = "Delete Piggy Bank")]
         public Task<bool> DeletePiggyBank(Guid piggyBankId)
         {
@@ -42,14 +42,23 @@ namespace PiggyBank.Api.Controllers
 
         /// <summary>
         /// This endpoint gets all active piggy banks,
-        /// with an optional parametee to include deleted piggy banks
         /// </summary>
-        /// <param name="includeDeleted">Set to true if you want to include deleted piggy banks</param>
-        /// <returns></returns>
+        /// <returns>A list of all piggy banks </returns>
         [HttpGet("GetPiggyBanks", Name = "Get Piggy Banks")]
-        public Task<List<PiggyBankDetails>> GetPiggyBanks(bool includeDeleted = false)
+        public Task<List<PiggyBankDetails>> GetPiggyBanks()
         {
-            return _services.GetPiggyBanks(includeDeleted);
+            return _services.GetPiggyBanks();
+        }
+
+        /// <summary>
+        /// This endpoit updates piggy bank details
+        /// </summary>
+        /// <param name="piggyBank">Guid of a piggy bank and updated name</param>
+        /// <returns>Return updated piggy bank details</returns>
+        [HttpPatch("UpdatePiggyBank", Name = "Update Piggy Bank")]
+        public Task<PiggyBankDetails> UpdatePiggyBank(UpdatePiggyBank piggyBank)
+        {
+            return _services.UpdatePiggyBank(piggyBank);
         }
     }
 }

@@ -22,7 +22,6 @@
     <ProjectReference Include="..\PiggyBank.Core\PiggyBank.Core.csproj" />
     <ProjectReference Include="..\PiggyBank.Data\PiggyBank.Data.csproj" />
     <ProjectReference Include="..\PiggyBank.Shared\PiggyBank.Shared.csproj" />
-      <PackageReference Include="Swashbuckle.Core" Version="5.6.0" />
 </ItemGroup>
 
 </Project>

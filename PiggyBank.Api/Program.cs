@@ -22,15 +22,17 @@ namespace PiggyBank.Api
                 c.IncludeXmlComments(xmlPath);
             });
 
-            builder.Services.AddDataRepositories();
+            builder.Services.AddDataRepositories(builder.Configuration);
             builder.Services.AddCoreServices();
+
+            
 
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowOrigins",
                     policy =>
                     {
-                        policy.WithOrigins("http://localhost:4200") 
+                        policy.WithOrigins("http://localhost:8080") 
                               .AllowAnyHeader()
                               .AllowAnyMethod();
                     });

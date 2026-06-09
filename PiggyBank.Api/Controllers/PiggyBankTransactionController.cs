@@ -10,11 +10,11 @@ namespace PiggyBank.Api.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class PiggyBanyTransactionController : ControllerBase, IPiggyBankTransactionServices
+    public class PiggyBankTransactionController : ControllerBase, IPiggyBankTransactionServices
     {
         private readonly IPiggyBankTransactionServices _services;
 
-        public PiggyBanyTransactionController(IPiggyBankTransactionServices services)
+        public PiggyBankTransactionController(IPiggyBankTransactionServices services)
         {
             _services = services;
         }
@@ -26,7 +26,7 @@ namespace PiggyBank.Api.Controllers
         /// and the coresponding piggy bank id (GUID)
         /// </summary>
         /// <param name="piggyBankTransaction">Details of the piggy bank transaction</param>
-        /// <returns></returns>
+        /// <returns>Return true if a piggy bank transaction was successfully created, or else it returns false</returns>
         [HttpPost("CreatePiggyBankTransaction", Name = "Create Piggy Bank Transaction")]
         public Task<bool> CreatePiggyBankTransaction(CreatePiggyBankTransaction piggyBankTransaction)
         {
@@ -37,7 +37,7 @@ namespace PiggyBank.Api.Controllers
         /// This endpoint gets all transactions for a piggy bank
         /// </summary>
         /// <param name="piggyBankId">The id (GUID) of a piggy bank</param>
-        /// <returns></returns>
+        /// <returns>A list of piggy bank transactions</returns>
         [HttpGet("GetPiggyBankTransactions", Name = "Get Piggy Bank Transactions")]
         public Task<List<PiggyBankTransactionDetails>> GetPiggyBankTransactions(Guid piggyBankId)
         {

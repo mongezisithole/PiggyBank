@@ -7,10 +7,12 @@ namespace PiggyBank.Shared.Services
 {
     public interface IPiggyBankServices
     {
-        Task<List<PiggyBankDetails>> GetPiggyBanks(bool includeDeleted = false);
+        Task<List<PiggyBankDetails>> GetPiggyBanks();
 
         Task<bool> CreatePiggyBank(CreatePiggyBank piggyBank);
 
         Task<bool> DeletePiggyBank(Guid piggyBankId);
+
+        Task<PiggyBankDetails> UpdatePiggyBank(UpdatePiggyBank piggyBank);
     }
 }

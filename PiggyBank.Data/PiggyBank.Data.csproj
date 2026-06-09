@@ -93,7 +93,6 @@
     <Compile Include="Extensions\IServiceCollectionExtensions.cs" />
     <Compile Include="Extensions\PiggyBankExtensions.cs" />
     <Compile Include="Extensions\PiggyBankTransactionExtensions.cs" />
-    <Compile Include="Extensions\WebApplicationExtensions.cs" />
     <Compile Include="Migrations\202605221142331_Init.cs" />
     <Compile Include="Migrations\202605221142331_Init.Designer.cs">
       <DependentUpon>202605221142331_Init.cs</DependentUpon>

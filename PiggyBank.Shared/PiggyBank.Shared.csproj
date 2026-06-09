@@ -46,6 +46,7 @@
     <Compile Include="DTOs\PiggyBankTransaction\PiggyBankTransactionDetails.cs" />
     <Compile Include="DTOs\PiggyBank\CreatePiggyBank.cs" />
     <Compile Include="DTOs\PiggyBank\PiggyBankDetails.cs" />
+    <Compile Include="DTOs\PiggyBank\UpdatePiggyBank.cs" />
     <Compile Include="Enums\TransactionType.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
