@@ -1,12 +1,17 @@
-﻿using System.Data.Entity;
+﻿using Microsoft.Extensions.Configuration;
+using System.Data.Entity;
+using System.Reflection;
 
 namespace PiggyBank.Data
 {
     public class PiggyBankContext : DbContext
     {
-        public PiggyBankContext() : base("Server=localhost;Database=PiggyBank;Trusted_Connection=True;")
+        public PiggyBankContext()
         {
-
+            
+        }
+        public PiggyBankContext(IConfiguration configuration) : base(configuration.GetConnectionString("DefaultConnection"))
+        {
         }
 
         public DbSet<Entities.PiggyBank> PiggyBanks { get; set; }

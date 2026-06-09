@@ -22,8 +22,10 @@ namespace PiggyBank.Api
                 c.IncludeXmlComments(xmlPath);
             });
 
-            builder.Services.AddDataRepositories();
+            builder.Services.AddDataRepositories(builder.Configuration);
             builder.Services.AddCoreServices();
+
+            
 
             builder.Services.AddCors(options =>
             {

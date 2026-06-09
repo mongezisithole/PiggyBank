@@ -1,4 +1,14 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+import { Quasar } from 'quasar'
+import quasarLang from 'quasar/lang/en-US'
 
-createApp(App).mount('#app')
+import App from './pages/IndexPage.vue'
+
+import '@quasar/extras/material-icons/material-icons.css'
+import 'quasar/src/css/index.sass'
+
+createApp(App)
+  .use(Quasar, {
+    lang: quasarLang
+  })
+  .mount('#app')

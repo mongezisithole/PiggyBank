@@ -22,5 +22,10 @@ namespace PiggyBank.Data.Entities
         {
             DeletedDate = DateTime.UtcNow;
         }
+
+        public void Update(string name)
+        {
+            Name = name;
+        }
     }
 }

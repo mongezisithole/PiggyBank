@@ -26,9 +26,14 @@ namespace PiggyBank.Core.Services
             return _repository.DeletePiggyBank(piggyBankId);
         }
 
-        public Task<List<PiggyBankDetails>> GetPiggyBanks(bool includeDeleted = false)
+        public Task<List<PiggyBankDetails>> GetPiggyBanks()
         {
-            return _repository.GetPiggyBanks(includeDeleted);
+            return _repository.GetPiggyBanks();
+        }
+
+        public Task<PiggyBankDetails> UpdatePiggyBank(UpdatePiggyBank piggyBank)
+        {
+            return _repository.UpdatePiggyBank(piggyBank);
         }
     }
 }

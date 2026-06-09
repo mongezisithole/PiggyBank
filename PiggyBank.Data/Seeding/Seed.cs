@@ -1,4 +1,5 @@
-﻿using PiggyBank.Data.Entities;
+﻿using Microsoft.Extensions.Configuration;
+using PiggyBank.Data.Entities;
 using PiggyBank.Shared.Enums;
 using System;
 using System.Linq;
@@ -7,9 +8,9 @@ namespace PiggyBank.Data.Seeding
 {
     public static class Seed
     {
-        public static void SeedData()
+        public static void SeedData(IConfiguration config)
         {
-            using (var context = new PiggyBankContext())
+            using (var context = new PiggyBankContext(config))
             {
                 var configuration = new Migrations.Configuration();
 
@@ -17,7 +18,6 @@ namespace PiggyBank.Data.Seeding
 
                 //Applying all pending migrations to the database
                 //It creates the database if it doesn't exist
-
                 migrator.Update();
 
                 if (!context.PiggyBanks.Any())

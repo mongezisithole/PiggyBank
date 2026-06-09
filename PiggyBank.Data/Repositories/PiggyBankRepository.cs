@@ -1,4 +1,5 @@
-﻿using PiggyBank.Data.Extensions;
+﻿using PiggyBank.Data.Entities;
+using PiggyBank.Data.Extensions;
 using PiggyBank.Shared.DTOs.PiggyBank;
 using PiggyBank.Shared.Repositories;
 using System;
@@ -11,73 +12,85 @@ namespace PiggyBank.Data.Repositories
 {
     public class PiggyBankRepository : IPiggyBankRepository
     {
+        private readonly PiggyBankContext _context;
+
+        public PiggyBankRepository(PiggyBankContext context)
+        {
+            _context = context;
+        }
+
         public async Task<bool> CreatePiggyBank(CreatePiggyBank piggyBank)
         {
-            using (var context = new PiggyBankContext())
+            try
             {
-                try
-                {
-                    context.PiggyBanks.Add(new Entities.PiggyBank(piggyBank.Name));
-                    await context.SaveChangesAsync();
+                _context.PiggyBanks.Add(new Entities.PiggyBank(piggyBank.Name));
+                await _context.SaveChangesAsync();
 
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
         public async Task<bool> DeletePiggyBank(Guid piggyBankId)
         {
-            using (var context = new PiggyBankContext())
+            try
             {
-                try
-                {
-                    var piggyBank = await context.PiggyBanks.FirstOrDefaultAsync(o => o.Id == piggyBankId);
+                var piggyBank = await _context.PiggyBanks.FirstOrDefaultAsync(o => o.Id == piggyBankId);
 
-                    if (piggyBank == null) throw new Exception("Piggy Bank Not Found");
+                if (piggyBank == null) throw new Exception("Piggy Bank Not Found");
 
-                    piggyBank.Delete();
-                    await context.SaveChangesAsync();
+                piggyBank.Delete();
+                await _context.SaveChangesAsync();
 
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
-        public async Task<List<PiggyBankDetails>> GetPiggyBanks(bool includeDeleted = false)
+        public async Task<List<PiggyBankDetails>> GetPiggyBanks()
         {
-            using (var context = new PiggyBankContext())
+            try
             {
-                try
+                var piggyBanks = await _context.PiggyBanks.Where(o => !o.DeletedDate.HasValue).ToListAsync();
+
+                var detailsList = piggyBanks.ToDetailsList();
+
+                foreach (var piggyBank in detailsList)
                 {
-                    var piggyBanks = await context.PiggyBanks.Where(o => !o.DeletedDate.HasValue).ToListAsync();
-
-                    if (includeDeleted)
-                    {
-                        piggyBanks.AddRange(await context.PiggyBanks.Where(o => o.DeletedDate.HasValue).ToListAsync());
-                    }
-
-                    var detailsList = piggyBanks.ToDetailsList();
-
-                    foreach (var piggyBank in detailsList)
-                    {
-                        var transactions = await context.PiggyBankTransactions.Where(o => o.PiggyBankId == piggyBank.Id).ToListAsync();
-                        piggyBank.Transactions = transactions.ToDetailsList();
-                    }
-
-                    return detailsList;
+                    var transactions = await _context.PiggyBankTransactions.Where(o => o.PiggyBankId == piggyBank.Id).ToListAsync();
+                    piggyBank.Transactions = transactions.ToDetailsList();
                 }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+
+                return detailsList;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<PiggyBankDetails> UpdatePiggyBank(UpdatePiggyBank piggyBankDetails)
+        {
+            try
+            {
+                var piggyBank = await _context.PiggyBanks.FirstOrDefaultAsync(o => o.Id == piggyBankDetails.Id);
+
+                if (piggyBank == null) throw new Exception("Piggy Bank Not Found");
+
+                piggyBank.Update(piggyBankDetails.Name);
+                await _context.SaveChangesAsync();
+
+                return piggyBank.ToDetails();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }
